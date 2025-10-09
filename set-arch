@@ -5,7 +5,7 @@
 
 # The following will attempt to install all needed packages to prepare the arch
 # This is a fast one-shot script with no error checking mechanism
-# This script is meant to run on a clean, fresh system with a minimum install system
+# This script is meant to run on a clean, fresh system with a minimum install enviornment
 
 
 #----------------------------------------------------------------------------------------------------------#
@@ -43,7 +43,8 @@ if [[ $INSTA == "Y" || $INSTA == "y" ]]; then
     yay -S --noconfirm mako thunar ttf-jetbrains-mono-nerd noto-fonts-emoji polkit-gnome python-requests htop \
     swappy grim pamixer brightnessctl gvfs bluez bluez-utils lxappearance xfce4-settings starship acpi \
     gnome-disk-utility tumbler gvfs gnome-text-editor evince flatpak vlc network-manager-applet \
-    nm-connection-editor networkmanager-qt5 network-manager nano vim lib32-pipewire
+    nm-connection-editor networkmanager-qt5 network-manager nano vim lib32-pipewire pulseaudio pulseaudio-bluetooth \
+    pulseaudio-alsa alsa-firmware alsa-utils pavucontrol
 
 
     # Start the bluetooth service
@@ -77,7 +78,7 @@ fi
 ### Install all of the plasma packages ####
 read -n1 -rep 'Would you like to install the KDE-Plasma packages? (y,n)' KDE
 if [[ $KDE == "Y" || $KDE == "y" ]]; then
-    yay -S --noconfirm plasma-desktopkdegraphics-thumbnailers kdenetwork-filesharing purpose discover \
+    yay -S --noconfirm plasma-desktop kdegraphics-thumbnailers kdenetwork-filesharing purpose discover \
     kaccounts-integration kscreen libaccounts-qt packagekit-qt6 plasma-nm plasma-pa scim dolphin \
     kde-cli-tools
 fi
@@ -101,14 +102,14 @@ fi
 
 
 echo 'Would you like to install nvidia driver for your machine?'
-echo 'Note: This script will attempt install nvidia drivers for newer cards using nvidia-open ( Turing  / Ampere / Ada Lovelace )'
+echo 'Note: This script will attempt install nvidia drivers for newer cards using nvidia-proprietery drivers ( Turing  / Ampere / Ada Lovelace )'
 echo '      If you are using an older card press n, and install respective driver for card'
 echo '      For reference you can visit arch official wiki for support'
 
 read -n1 -rep 'Would you like to install? (y,n) \n ' DRI
 if [[ $DRI == "Y" || $DRI == "y" ]]; then
 
-    yay -S --noconfirm nvdia-open nvidia-settings nvidia-utils lib32-nvidia-utils \
+    yay -S --noconfirm nvdia nvidia-settings nvidia-utils lib32-nvidia-utils \
     nvtop cuda opencl-nvidia lib32-opencl-nvidia nvidia-prime
 fi
 
@@ -179,8 +180,13 @@ fi
 ### Script is done ###
 echo -e 'Script has completed.\n'
 echo -e 'The system will begin a restart of the system'
-sudo reboot -h now
 
+read -n1 -rep 'Would you like to restart' RES
 
+if [[ $RES == "Y" || $RES == "y" ]]; then
+    sudo reboot -h now
+fi
+
+echo -e 'All operations have been completed'
 
 #----------------------------------------------------------------------------------------------------------#
